@@ -13,7 +13,7 @@ gulp.task('styles', function () {
     }))
     .pipe($.concat('main.css'))
     .pipe($.postcss([
-      require('autoprefixer-core')({browsers: ['last 1 version']})
+      require('autoprefixer-core')({ browsers: ['> 2%']})
     ]))
     .pipe(gulp.dest('dist/css'));
 });
@@ -22,12 +22,13 @@ gulp.task('templates', ['styles'], function () {
   var assets = $.useref.assets({searchPath: ['dist']});
 
   gulp.src('app/**/*.jade')
-    .pipe($.jade())
+    .pipe($.jade({pretty: true}))
     .pipe(assets)
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.css', $.csso()))
     .pipe(assets.restore())
     .pipe($.useref())
+    .pipe($.if('*.html', $.minifyHtml({conditionals: true})))
     .pipe(gulp.dest('dist'));
 });
 

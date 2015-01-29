@@ -22,6 +22,7 @@
     "gulp-useref": "^1.0.2",
     "gulp-stylus": "^2.0.0",
     "gulp-concat": "^2.4.3",
+    "gulp-minify-html": "^0.1.8",
     "main-bower-files": "^2.1.0",
     "gulp-jade": "^0.11.0",
     "opn": "^1.0.0",
