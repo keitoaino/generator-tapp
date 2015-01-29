@@ -19,6 +19,9 @@ gulp.task('styles', function () {
 });
 
 gulp.task('scripts', function () {
+  gulp.src('app/scripts/**/*.coffee')
+    .pipe($.coffee({bare: true}).on('error', gutil.log))
+    .pipe(gulp.dest('dist/js'))
 });
 
 gulp.task('templates', ['styles', 'scripts'], function () {
