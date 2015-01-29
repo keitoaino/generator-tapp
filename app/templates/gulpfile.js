@@ -18,7 +18,10 @@ gulp.task('styles', function () {
     .pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('templates', ['styles'], function () {
+gulp.task('scripts', function () {
+});
+
+gulp.task('templates', ['styles', 'scripts'], function () {
   var assets = $.useref.assets({searchPath: ['dist']});
 
   gulp.src('app/**/*.jade')
@@ -59,29 +62,28 @@ gulp.task('extras', function () {
 
 gulp.task('clean', require('del').bind(null, ['dist']));
 
-gulp.task('serve', ['styles', 'fonts'], function () {
+gulp.task('serve', ['templates', 'fonts'], function () {
   browserSync({
     notify: false,
     port: 9000,
     server: {
-      baseDir: ['.tmp', 'dist'],
+      baseDir: ['dist'],
       routes: {
         '/bower_components': 'bower_components'
       }
     }
   });
 
-  // watch for changes
   gulp.watch([
-    'app/*.html',
-    '.tmp/styles/**/*.css',
-    'app/scripts/**/*.js',
-    'app/images/**/*'
+    'dist/*.jade',
+    'dist/css/**/*.css',
+    'dist/js/**/*.js',
+    'dist/images/**/*'
   ]).on('change', reload);
 
   gulp.watch('app/scripts/**/*.coffee', ['scripts', reload]);
-  gulp.watch('app/styles/**/*.stylus', ['styles', reload]);
-  gulp.watch('bower.json', ['wiredep', 'fonts', reload]);
+  gulp.watch('app/styles/**/*.styl', ['styles', reload]);
+  gulp.watch('bower.json', ['wiredep', reload]);
 });
 
 // inject bower components
