@@ -6,32 +6,6 @@ var $ = require('gulp-load-plugins')();
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 
-gulp.task('serve', ['templates', 'fonts'], function () {
-  browserSync({
-    notify: false,
-    port: 9000,
-    server: {
-      baseDir: ['dist'],
-      routes: {
-        '/bower_components': 'bower_components'
-      }
-    }
-  });
-
-  gulp.watch([
-    'dist/*.jade',
-    'dist/css/**/*.css',
-    'dist/js/**/*.js',
-    'dist/images/**/*'
-  ]).on('change', reload);
-
-  gulp.watch('app/scripts/**/*.coffee', ['scripts', reload]);
-  gulp.watch('app/styles/**/*.styl', ['styles', reload]);
-  gulp.watch('bower.json', ['wiredep', reload]);
-});
-
-//new tasks
-
 gulp.task('clean', require('del').bind(null, ['dist']));
 
 gulp.task('templates', function () {
