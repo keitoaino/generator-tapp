@@ -1,10 +1,10 @@
 {
-  "name": "generator-gulp-webapp",
-  "version": "0.2.0",
+  "name": "generator-tapp",
+  "version": "0.1.0",
   "description": "Scaffold out a front-end web app",
   "license": "BSD",
-  "repository": "yeoman/generator-gulp-webapp",
-  "author": "The Yeoman Team",
+  "repository": "keitoaino/generator-tapp",
+  "author": "keitoaino",
   "main": "app/index.js",
   "engines": {
     "node": ">=0.10.0",
@@ -21,9 +21,10 @@
     "web",
     "app",
     "front-end",
-    "h5bp",
-    "modernizr",
-    "jquery",
+    "jade",
+    "stylus",
+    "coffee",
+    "createjs",
     "gulp"
   ],
   "dependencies": {
