@@ -6,65 +6,6 @@ var $ = require('gulp-load-plugins')();
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 
-gulp.task('styles', function () {
-  gulp.src('app/styles/*.styl')
-    .pipe($.stylus({
-      compress: true
-    }))
-    .pipe($.concat('main.css'))
-    .pipe($.postcss([
-      require('autoprefixer-core')({ browsers: ['> 2%']})
-    ]))
-    .pipe(gulp.dest('dist/css'));
-});
-
-gulp.task('scripts', function () {
-  gulp.src('app/scripts/**/*.coffee')
-    .pipe($.coffee({bare: true}).on('error', gutil.log))
-    .pipe(gulp.dest('dist/js'))
-});
-
-gulp.task('templates', ['styles', 'scripts'], function () {
-  var assets = $.useref.assets({searchPath: ['dist']});
-
-  gulp.src('app/**/*.jade')
-    .pipe($.jade({pretty: true}))
-    .pipe(assets)
-    .pipe($.if('*.js', $.uglify()))
-    .pipe($.if('*.css', $.csso()))
-    .pipe(assets.restore())
-    .pipe($.useref())
-    .pipe($.if('*.html', $.minifyHtml({conditionals: true})))
-    .pipe(gulp.dest('dist'));
-});
-
-gulp.task('images', function () {
-  return gulp.src('app/images/**/*')
-    .pipe($.cache($.imagemin({
-      progressive: true,
-      interlaced: true
-    })))
-    .pipe(gulp.dest('dist/images'));
-});
-
-gulp.task('fonts', function () {
-  return gulp.src(require('main-bower-files')().concat('app/fonts/**/*'))
-    .pipe($.filter('**/*.{eot,svg,ttf,woff}'))
-    .pipe($.flatten())
-    .pipe(gulp.dest('dist/fonts'));
-});
-
-gulp.task('extras', function () {
-  return gulp.src([
-    'app/*.*',
-    '!app/*.jade'
-  ], {
-    dot: true
-  }).pipe(gulp.dest('dist'));
-});
-
-gulp.task('clean', require('del').bind(null, ['dist']));
-
 gulp.task('serve', ['templates', 'fonts'], function () {
   browserSync({
     notify: false,
@@ -100,8 +41,79 @@ gulp.task('wiredep', function () {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['templates', 'images', 'fonts', 'extras'], function () {
-  return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
+//new tasks
+
+gulp.task('clean', require('del').bind(null, ['dist']));
+
+gulp.task('templates', function () {
+  gulp.src('app/**/*.jade')
+    .pipe($.jade({pretty: true}))
+    .pipe(gulp.dest('dist'));
+});
+
+gulp.task('templatesMin', ['styles', 'scripts'], function () {
+  var assets = $.useref.assets({searchPath: ['dist']});
+
+  gulp.src('app/**/*.jade')
+    .pipe($.jade({pretty: true}))
+    .pipe(assets)
+    .pipe($.if('*.js', $.uglify()))
+    .pipe($.if('*.css', $.csso()))
+    .pipe(assets.restore())
+    .pipe($.useref())
+    .pipe($.if('*.html', $.minifyHtml({conditionals: true})))
+    .pipe(gulp.dest('dist'));
+});
+
+gulp.task('styles', function () {
+  gulp.src('app/styles/**/*.styl')
+    .pipe($.stylus({
+      compress: true
+    }))
+    .pipe($.concat('main.css'))
+    .pipe($.postcss([
+      require('autoprefixer-core')({ browsers: ['> 2%']})
+    ]))
+    .pipe(gulp.dest('dist/styles'));
+});
+
+gulp.task('scripts', function () {
+  gulp.src('app/scripts/**/*.coffee')
+    .pipe($.coffee())
+    .pipe($.uglify())
+    .pipe(gulp.dest('dist/scripts'))
+});
+
+gulp.task('fonts', function () {
+  gulp.src(require('main-bower-files')().concat('app/fonts/**/*'))
+    .pipe($.filter('**/*.{eot,svg,ttf,woff}'))
+    .pipe($.flatten())
+    .pipe(gulp.dest('dist/fonts'));
+});
+
+gulp.task('images', function () {
+  gulp.src('app/images/**/*')
+    .pipe($.imagemin({
+      optimizationLevel: 3,
+      progressive: true,
+      interlaced: true
+    }))
+    .pipe(gulp.dest('dist/images'));
+});
+
+gulp.task('extras', function () {
+  gulp.src([
+    'app/*.*',
+    '!app/*.jade'
+  ], {
+    dot: true
+  }).pipe(gulp.dest('dist'));
+});
+
+gulp.task('build', ['clean'], function () {
+  gulp.start(['templatesMin', 'fonts', 'images']);
+
+  gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
 gulp.task('default', ['clean'], function () {
