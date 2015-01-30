@@ -52,7 +52,7 @@ gulp.task('templates', function () {
 });
 
 gulp.task('templatesMin', ['styles', 'scripts'], function () {
-  var assets = $.useref.assets({searchPath: ['dist']});
+  var assets = $.useref.assets({searchPath: ['.', '.tmp']});
 
   gulp.src('app/**/*.jade')
     .pipe($.jade({pretty: true}))
@@ -81,7 +81,7 @@ gulp.task('scripts', function () {
   gulp.src('app/scripts/**/*.coffee')
     .pipe($.coffee())
     .pipe($.uglify())
-    .pipe(gulp.dest('dist/scripts'))
+    .pipe(gulp.dest('.tmp/scripts'))
 });
 
 gulp.task('fonts', function () {
