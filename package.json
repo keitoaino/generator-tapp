@@ -1,7 +1,7 @@
 {
   "name": "generator-tapp",
   "version": "0.1.0",
-  "description": "Scaffold out a front-end web app",
+  "description": "Scaffold out a front-end web app with Jade, Stylus, CoffeeScript and gulp on board.",
   "license": "BSD",
   "repository": "keitoaino/generator-tapp",
   "author": "keitoaino",
