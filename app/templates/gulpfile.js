@@ -100,7 +100,7 @@ gulp.task('extras', function () {
 });
 
 gulp.task('build', ['clean'], function () {
-  gulp.start(['templatesMin', 'fonts', 'images']);
+  gulp.start(['templatesMin', 'fonts', 'images', 'extras']);
 
   gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
