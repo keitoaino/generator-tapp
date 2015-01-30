@@ -144,5 +144,23 @@ gulp.task('serve:develop', ['clean', 'templates', 'fonts', 'styles', 'scripts'],
   gulp.watch('bower.json', ['wiredep', reload]);
 });
 
+gulp.task('serve:production', ['build'], function () {
+  browserSync({
+    notify: false,
+    port: 9000,
+    server: {
+      baseDir: ['dist']
+    }
+  });
+
+  gulp.watch([
+    'dist/*.html',
+    'dist/styles/**/*.css',
+    'dist/scripts/**/*.js',
+    'dist/fonts/**/*',
+    'dist/images/**/*'
+  ]).on('change', reload);
+});
+
 gulp.task('serve', ['serve:develop'], function () {
 });
