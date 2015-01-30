@@ -5,7 +5,7 @@ Welcome to the [gulp][gulp] flavor of our web app generator! If you're not famil
 If you haven't already, install [yo][yo] and this generator by running:
 
 ```sh
-$ npm install --global yo generator-gulp-webapp
+$ npm install --global yo generator-tapp
 ```
 
 Now you can scaffold your very own web app:
@@ -13,7 +13,7 @@ Now you can scaffold your very own web app:
 ```sh
 $ mkdir my-webap
 $ cd my-webapp
-$ yo gulp-webapp
+$ yo tapp
 ```
 
 To start developing, run:
@@ -44,31 +44,12 @@ As you might have noticed, gulp plugins (the ones that begin with `gulp-`) don't
 
 ## Serve
 
-We use the `.tmp` directory mostly for compiling assets like SCSS files. It has precedence over `app`, so if you had an `app/index.html` template compiling to `.tmp/index.html`, http://localhost:9000 would point to `.tmp/index.html`, which is what we want.
+We use the `.tmp` directory mostly for compiling assets like CoffeeScript files.
 
 This system can be a little confusing with the `watch` task, but it's actually pretty simple:
 
 * notify LiveReload when compiled assets change
 * run the compile task when source assets change
-
-E.g. if you have Less files, you would want to notify LiveReload when Less files have compiled, i.e. when `.tmp/styles/**/*.css` change, but you would want to compile Less files by running the `styles` task when source files change, i.e. `app/styles/**/*.less`.
-
-## Sass
-
-SCSS files are compiled in the `styles` task, which you can customize however you want. E.g. to reduce the usage of `calc()` with [postcss-calc][calc], run:
-
-```sh
-$ npm install --save-dev postcss-calc
-```
-
-and add it to PostCSS:
-
-```js
-.pipe($.postcss([
-  require('autoprefixer-core')({browsers: ['last 1 version']}),
-  require('postcss-calc')
-]))
-```
 
 ## Bower
 

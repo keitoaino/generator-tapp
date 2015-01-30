@@ -84,14 +84,6 @@ module.exports = yeoman.generators.Base.extend({
     writeIndex: function () {
       this.indexFile = this.src.read('index.jade');
       this.indexFile = this.engine(this.indexFile, this);
-
-      this.indexFile = this.appendFiles({
-        html: this.indexFile,
-        fileType: 'js',
-        optimizedPath: 'scripts/main.js',
-        sourceFileList: ['scripts/main.js']
-      });
-
       this.write('app/index.jade', this.indexFile);
     },
 
@@ -102,6 +94,7 @@ module.exports = yeoman.generators.Base.extend({
       this.mkdir('app/images');
       this.mkdir('app/fonts');
       this.copy('main.coffee', 'app/scripts/main.coffee');
+      this.copy('main.styl', 'app/styles/main.styl');
     }
   },
 
@@ -127,7 +120,6 @@ module.exports = yeoman.generators.Base.extend({
     this.on('end', function () {
       var bowerJson = this.dest.readJSON('bower.json');
 
-      // wire Bower packages to .html
       wiredep({
         bowerJson: bowerJson,
         directory: 'bower_components',
@@ -135,9 +127,6 @@ module.exports = yeoman.generators.Base.extend({
         src: 'app/index.jade'
       });
 
-      // ideally we should use composeWith, but we're invoking it here
-      // because generator-mocha is changing the working directory
-      // https://github.com/yeoman/generator-mocha/issues/28
       this.invoke(this.options['test-framework'], {
         options: {
           'skip-message': this.options['skip-install-message'],

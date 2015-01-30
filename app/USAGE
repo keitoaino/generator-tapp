@@ -1,13 +1,11 @@
 Description:
-    Creates a new basic front-end web application.
+    Creates a new basic front-end web application with Jade, Stylus and CoffeeScript.
 
 Options:
-    Sass: Include Sass
-    Bootstrap: Include Bootstrap or Bootstrap Sass if Sass is included
-    Modernizr: Include Modernizr
+  CreateJS: Include set of libraries (EaselJs, TweenJs, SoundJS, PreloadJS)
 
 Example:
-    yo gulp-webapp
+    yo tapp
 
     This will create:
         gulpfile.js: Configuration for the task runner.
