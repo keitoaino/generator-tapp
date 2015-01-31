@@ -1,8 +1,8 @@
 # Site settings
 title: A gulp.js generator for modern webapps
-description: "A gulp.js generator for modern webapps"
-baseurl: ""
-url: "http://yeoman.io/generator-gulp-webapp"
+description: Scaffold out a front-end web app with Jade, Stylus, CoffeeScript and gulp on board.
+baseurl:
+url: https://www.npmjs.com/package/generator-tapp
 
 # Build settings
 markdown: kramdown
