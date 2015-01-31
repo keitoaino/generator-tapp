@@ -1,6 +1,6 @@
 # Site settings
 title: A gulp.js generator for modern webapps
-description: Scaffold out a front-end web app with Jade, Stylus, CoffeeScript and gulp on board.
+description: Scaffold out a front-end web app.
 baseurl:
 url: https://www.npmjs.com/package/generator-tapp
 
