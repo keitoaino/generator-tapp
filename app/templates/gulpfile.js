@@ -10,7 +10,7 @@ gulp.task('clean', require('del').bind(null, ['dist']));
 
 gulp.task('templates', function () {
   gulp.src('app/**/*.jade')
-    .pipe($.jade({pretty: true}))
+    .pipe($.jade())
     .pipe(gulp.dest('dist'));
 });
 
@@ -89,8 +89,7 @@ gulp.task('wiredep', function () {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('default', ['clean'], function () {
-  gulp.start('build');
+gulp.task('default', ['build'], function () {
 });
 
 gulp.task('serve:develop', ['clean'], function () {
