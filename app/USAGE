@@ -1,9 +1,6 @@
 Description:
     Creates a new basic front-end web application with Jade, Stylus and CoffeeScript.
 
-Options:
-  CreateJS: Include set of libraries (EaselJs, TweenJs, SoundJS, PreloadJS)
-
 Example:
     yo tapp
 
