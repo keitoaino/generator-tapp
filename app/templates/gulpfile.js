@@ -10,7 +10,7 @@ gulp.task('clean', require('del').bind(null, ['dist']));
 
 gulp.task('templates', function () {
   gulp.src('app/**/*.jade')
-    .pipe($.jade({pretty: true}))
+    .pipe($.jade())
     .pipe(gulp.dest('dist'));
 });
 
@@ -89,11 +89,12 @@ gulp.task('wiredep', function () {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('default', ['clean'], function () {
-  gulp.start('build');
+gulp.task('default', ['build'], function () {
 });
 
-gulp.task('serve:develop', ['clean', 'templates', 'fonts', 'styles', 'scripts'], function () {
+gulp.task('serve:develop', ['clean'], function () {
+  gulp.start(['templates', 'fonts', 'styles', 'scripts']);
+
   browserSync({
     notify: false,
     port: 9000,
@@ -106,13 +107,14 @@ gulp.task('serve:develop', ['clean', 'templates', 'fonts', 'styles', 'scripts'],
   });
 
   gulp.watch([
-    'dist/*.html',
+    'dist/**/*.html',
     'dist/styles/**/*.css',
     'dist/scripts/**/*.js',
     'dist/fonts/**/*',
     'app/images/**/*'
   ]).on('change', reload);
 
+  gulp.watch('app/**/*.jade', ['templates', reload]);
   gulp.watch('app/scripts/**/*.coffee', ['scripts', reload]);
   gulp.watch('app/styles/**/*.styl', ['styles', reload]);
   gulp.watch('bower.json', ['wiredep', reload]);
