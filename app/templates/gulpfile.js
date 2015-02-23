@@ -11,6 +11,7 @@ gulp.task('clean', require('del').bind(null, ['dist']));
 gulp.task('templates', function () {
   gulp.src('app/**/*.jade')
     .pipe($.jade())
+    .on('error', gutil.log)
     .pipe(gulp.dest('dist'));
 });
 
@@ -19,6 +20,7 @@ gulp.task('templatesMin', ['styles', 'scripts'], function () {
 
   gulp.src('app/**/*.jade')
     .pipe($.jade({pretty: true}))
+    .on('error', gutil.log)
     .pipe(assets)
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.css', $.csso()))
@@ -33,6 +35,7 @@ gulp.task('styles', function () {
     .pipe($.stylus({
       compress: true
     }))
+    .on('error', gutil.log)
     .pipe($.concat('main.css'))
     .pipe($.postcss([
       require('autoprefixer-core')({ browsers: ['> 2%']})
@@ -43,6 +46,7 @@ gulp.task('styles', function () {
 gulp.task('scripts', function () {
   gulp.src('app/scripts/**/*.coffee')
     .pipe($.coffee())
+    .on('error', gutil.log)
     .pipe($.uglify())
     .pipe(gulp.dest('.tmp/scripts'))
 });
